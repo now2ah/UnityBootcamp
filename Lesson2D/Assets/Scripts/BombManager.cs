@@ -4,23 +4,23 @@ using UnityEngine;
 public class BombManager : MonoBehaviour
 {
     public GameObject bomb;
+    [SerializeField]
+    float bombInterval = 2.0f;
     Coroutine deployBombCoroutine;
 
     IEnumerator DeployBomb()
     {
         while (true)
         {
-            yield return null;
+            float xPos = Random.Range(-5, 5);
+            Instantiate<GameObject>(bomb, new Vector3(xPos, 4, 0), Quaternion.identity);
+            yield return new WaitForSeconds(bombInterval);
         }
     }
 
     void StartDeployBombCoroutine()
     {
-        if (null != deployBombCoroutine)
-        {
-            StopCoroutine(deployBombCoroutine);
-        }
-        else if (null == deployBombCoroutine)
+        if (null == deployBombCoroutine)
         {
             deployBombCoroutine = StartCoroutine(DeployBomb());
         }
@@ -29,12 +29,6 @@ public class BombManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        StartDeployBombCoroutine();
     }
 }

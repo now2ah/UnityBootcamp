@@ -51,7 +51,7 @@ public class Cat : MonoBehaviour
     {
         speed = 5.0f;
         isJumping = false;
-        jumpSpeed = 5.5f;
+        jumpSpeed = 15.5f;
         rigidBody = GetComponent<Rigidbody2D>();
     }
 

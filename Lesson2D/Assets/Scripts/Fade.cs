@@ -5,29 +5,37 @@ using UnityEngine.UI;
 public class Fade : MonoBehaviour
 {
     public Image fadeImage;
+    public Text endCountText;
     Coroutine fadeInCoroutine;
     Coroutine fadeOutCoroutine;
-    float fadeTime = 0.1f;
+    [SerializeField]
+    float fadeTime = 0.01f;
+    [SerializeField]
+    int endCount = 5;
 
-    void StartFadeInCoroutine()
+    public void StartFadeInCoroutine()
     {
         if (null != fadeInCoroutine)
         {
             StopCoroutine(fadeInCoroutine);
+            StartCoroutine(FadeIn());
         }
-        else if (null == fadeInCoroutine)
+        
+        if (null == fadeInCoroutine)
         {
             fadeInCoroutine = StartCoroutine(FadeIn());
         }
     }
 
-    void StartFadeOutCoroutine()
+    public void StartFadeOutCoroutine()
     {
         if (null != fadeOutCoroutine)
         {
             StopCoroutine(fadeOutCoroutine);
+            StartCoroutine(FadeOut());
         }
-        else if (null == fadeOutCoroutine)
+        
+        if (null == fadeOutCoroutine)
         {
             fadeOutCoroutine = StartCoroutine(FadeOut());
         }
@@ -39,9 +47,9 @@ public class Fade : MonoBehaviour
         {
             while (fadeImage.color.a > 0)
             {
-                float nextAlpha = fadeImage.color.a;
-                fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b, nextAlpha--);
-                yield return new WaitForSeconds(fadeTime);
+                float nextAlpha = fadeImage.color.a - fadeTime;
+                fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b, nextAlpha);
+                yield return null;
             }
         }
     }
@@ -52,22 +60,31 @@ public class Fade : MonoBehaviour
         {
             while (fadeImage.color.a < 1)
             {
-                float nextAlpha = fadeImage.color.a;
-                fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b, nextAlpha++);
-                yield return new WaitForSeconds(fadeTime);
+                float nextAlpha = fadeImage.color.a + fadeTime;
+                fadeImage.color = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b, nextAlpha);
+                yield return null;
             }
         }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    IEnumerator EndSceneCoroutine()
+    {
+        if (null != endCountText)
+        {
+            while (endCount > 0)
+            {
+                endCount--;
+                endCountText.text = endCount.ToString();
+                yield return new WaitForSeconds(1.0f);
+            }
+
+            StartFadeOutCoroutine();
+        }
+    }
+
     void Start()
     {
         StartFadeInCoroutine();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        StartCoroutine("EndSceneCoroutine");
     }
 }
