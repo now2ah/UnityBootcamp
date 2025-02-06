@@ -1,0 +1,12 @@
+{
+  "ItemListWrap": [
+    {
+      "name": "knife",
+      "description": "sharp"
+    },
+    {
+      "name": "shield",
+      "description": "round"
+    }
+  ]
+}
