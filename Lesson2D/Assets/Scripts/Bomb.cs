@@ -26,7 +26,6 @@ public class Bomb : MonoBehaviour
     
     void ExplodeBomb()
     {
-        Debug.Log("Boom");
         Destroy(gameObject);
     }
 
@@ -65,16 +64,18 @@ public class Bomb : MonoBehaviour
         spriteRenderer.color = Color.black;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         StartExplodeCoroutine();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
