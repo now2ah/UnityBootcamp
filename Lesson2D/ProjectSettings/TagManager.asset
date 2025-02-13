@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - FinishWall
-  - Projectile
+  - QuestStarter
+  - QuestObject
   layers:
   - Default
   - TransparentFX

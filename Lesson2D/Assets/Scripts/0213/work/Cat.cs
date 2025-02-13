@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Cat : MonoBehaviour
 {
@@ -6,6 +7,16 @@ public class Cat : MonoBehaviour
     public bool isJumping;
     public float jumpSpeed;
     Rigidbody2D rigidBody;
+
+    public event EventHandler OnValueChange;
+
+    public Quest quest;
+
+    int gold;
+    int exp;
+
+    public int Gold => gold;
+    public int Exp => exp;
 
     Vector3 GetDirection()
     {
@@ -40,10 +51,29 @@ public class Cat : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "FinishWall")
+        if (collision.gameObject.tag == "QuestObject")
         {
-
+            collision.gameObject.SetActive(false);
+            quest.ProgressQuest();
         }
+
+        if (collision.gameObject.tag == "QuestStarter")
+        {
+            collision.gameObject.SetActive(false);
+            quest.StartQuest();
+        }
+    }
+
+    void _ValueChanged()
+    {
+        OnValueChange.Invoke(this, EventArgs.Empty);
+    }
+
+    void _OnDoneQuest(object o, EventArgs e)
+    {
+        gold += quest.questReward.gold;
+        exp += quest.questReward.exp;
+        _ValueChanged();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -53,6 +83,12 @@ public class Cat : MonoBehaviour
         isJumping = false;
         jumpSpeed = 15.5f;
         rigidBody = GetComponent<Rigidbody2D>();
+
+        gold = 0;
+        exp = 0;
+        _ValueChanged();
+
+        quest.OnDoneQuest += _OnDoneQuest;
     }
 
     // Update is called once per frame

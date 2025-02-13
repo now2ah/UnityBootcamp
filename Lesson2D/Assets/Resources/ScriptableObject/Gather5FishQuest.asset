@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c720db67c22c9409d93cd83a9543ca, type: 3}
+  m_Name: Gather5FishQuest
+  m_EditorClassIdentifier: 
+  questType: 1
+  questState: 0
+  questReward: {fileID: 11400000, guid: 5f07b8c0ae995b84590e3f3e77cd7487, type: 2}
+  questRequirement: {fileID: 11400000, guid: f0c98b631344dd4409bd287940cdb9a7, type: 2}
+  questTitle: Gathering Fishes
+  questDesc: Gather 5 Fishes
